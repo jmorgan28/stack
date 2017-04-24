@@ -8,7 +8,7 @@
 #include "draw.h"
 #include "matrix.h"
 #include "parser.h"
-
+#include "stack.h"
 
 /*======== void parse_file () ==========
 Inputs:   char * filename 
@@ -68,7 +68,8 @@ void parse_file ( char * filename,
   FILE *f;
   char line[255];
   clear_screen(s);
-
+  struct stack *ui;
+    ;
   color c;
   c.red = 0;
   c.green = 0;
