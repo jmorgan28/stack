@@ -228,6 +228,11 @@ void parse_file ( char * filename,
       //printf("APPLY\t%s", line);
        pop(ui);
     }//end apply
+
+    else if ( strncmp(line, "push", strlen(line)) == 0 ) {
+      //printf("APPLY\t%s", line);
+       push(ui);
+    }//end apply
     
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
       //printf("DISPLAY\t%s", line);
