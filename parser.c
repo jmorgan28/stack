@@ -68,8 +68,7 @@ void parse_file ( char * filename,
   FILE *f;
   char line[255];
   clear_screen(s);
-  struct stack *ui;
-    ;
+  struct stack *ui = new_stack();
   color c;
   c.red = 0;
   c.green = 0;
@@ -223,6 +222,11 @@ void parse_file ( char * filename,
     else if ( strncmp(line, "apply", strlen(line)) == 0 ) {
       //printf("APPLY\t%s", line);
       matrix_mult(transform, edges);
+    }//end apply
+
+    else if ( strncmp(line, "pop", strlen(line)) == 0 ) {
+      //printf("APPLY\t%s", line);
+       pop(ui);
     }//end apply
     
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
