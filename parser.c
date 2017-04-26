@@ -173,15 +173,18 @@ void parse_file ( char * filename,
     else if ( strncmp(line, "line", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
       //printf("LINE\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf %lf %lf",
 	     xvals, yvals, zvals,
 	     xvals+1, yvals+1, zvals+1);
       /*printf("%lf %lf %lf %lf %lf %lf",
 	     xvals[0], yvals[0], zvals[0],
 	     xvals[1], yvals[1], zvals[1]) */
-      add_edge(edges, xvals[0], yvals[0], zvals[0],
-	       xvals[1], yvals[1], zvals[1]);      
+      add_edge(tmp, xvals[0], yvals[0], zvals[0],
+	       xvals[1], yvals[1], zvals[1]);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_lines(tmp,s,c);
+      free_matrix(tmp);
     }//end line
 
     else if ( strncmp(line, "scale", strlen(line)) == 0 ) {
@@ -251,8 +254,8 @@ void parse_file ( char * filename,
     
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
       //printf("DISPLAY\t%s", line);
-      clear_screen(s);
-      draw_polygons(edges, s, c);
+      //clear_screen(s);
+      //draw_polygons(edges, s, c);
       display( s );
     }//end display
 
@@ -260,8 +263,8 @@ void parse_file ( char * filename,
       fgets(line, sizeof(line), f);
       *strchr(line, '\n') = 0;
       //printf("SAVE\t%s\n", line);
-      clear_screen(s);
-      draw_lines(edges, s, c);
+      //clear_screen(s);
+      //draw_lines(edges, s, c);
       save_extension(s, line);
     }//end save
     
