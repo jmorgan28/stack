@@ -50,6 +50,7 @@ void push( struct stack *s ) {
   copy_matrix( s->data[ s->top ], m);
 
   s->top++;
+  //ident(m);
   s->data[ s->top ] = m;  
 }
 
