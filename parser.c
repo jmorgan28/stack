@@ -103,7 +103,7 @@ void parse_file ( char * filename,
       add_box(tmp, xvals[0], yvals[0], zvals[0],
 	      xvals[1], yvals[1], zvals[1]);
       matrix_mult(ui->data[ui->top],tmp);
-      draw_lines(tmp,s,c);
+      draw_polygons(tmp,s,c);
       free_matrix(tmp);
     }//end of box
 
@@ -115,26 +115,32 @@ void parse_file ( char * filename,
 	     xvals, yvals, zvals, &r);
       add_sphere( tmp, xvals[0], yvals[0], zvals[0], r, step);
       matrix_mult(ui->data[ui->top],tmp);
-      draw_lines(tmp,s,c);
+      draw_polygons(tmp,s,c);
       free_matrix(tmp);
     }//end of sphere
 
     else if ( strncmp(line, "torus", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
       //printf("torus\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf %lf",
 	     xvals, yvals, zvals, &r, &r1);
-      add_torus( edges, xvals[0], yvals[0], zvals[0], r, r1, step);
+      add_torus( tmp, xvals[0], yvals[0], zvals[0], r, r1, step);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_polygons(tmp,s,c);
+      free_matrix(tmp);
     }//end of torus
 
     else if ( strncmp(line, "circle", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
       //printf("CIRCLE\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf",
 	     xvals, yvals, zvals, &r);
-      add_circle( edges, xvals[0], yvals[0], zvals[0], r, step);
+      add_circle( tmp, xvals[0], yvals[0], zvals[0], r, step);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_lines(tmp,s,c);
+      free_matrix(tmp);
     }//end of circle
 
     else if ( strncmp(line, "hermite", strlen(line)) == 0 ||
@@ -146,7 +152,7 @@ void parse_file ( char * filename,
       
       fgets(line, sizeof(line), f);
       //printf("CURVE\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
 	     xvals, yvals, xvals+1, yvals+1,
 	     xvals+2, yvals+2, xvals+3, yvals+3);
@@ -157,8 +163,11 @@ void parse_file ( char * filename,
       /* 	     xvals[3], yvals[3]); */
       
       //printf("%d\n", type);
-      add_curve( edges, xvals[0], yvals[0], xvals[1], yvals[1],
+      add_curve( tmp, xvals[0], yvals[0], xvals[1], yvals[1],
 		 xvals[2], yvals[2], xvals[3], yvals[3], step, type);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_lines(tmp,s,c);
+      free_matrix(tmp);
     }//end of curve
     
     else if ( strncmp(line, "line", strlen(line)) == 0 ) {
