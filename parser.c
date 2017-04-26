@@ -96,21 +96,27 @@ void parse_file ( char * filename,
     if ( strncmp(line, "box", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
       //printf("BOX\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf %lf %lf",
 	     xvals, yvals, zvals,
 	     xvals+1, yvals+1, zvals+1);
-      add_box(edges, xvals[0], yvals[0], zvals[0],
+      add_box(tmp, xvals[0], yvals[0], zvals[0],
 	      xvals[1], yvals[1], zvals[1]);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_lines(tmp,s,c);
+      free_matrix(tmp);
     }//end of box
 
     else if ( strncmp(line, "sphere", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
       //printf("SPHERE\t%s", line);
-
+      tmp = new_matrix(4,4);
       sscanf(line, "%lf %lf %lf %lf",
 	     xvals, yvals, zvals, &r);
-      add_sphere( edges, xvals[0], yvals[0], zvals[0], r, step);
+      add_sphere( tmp, xvals[0], yvals[0], zvals[0], r, step);
+      matrix_mult(ui->data[ui->top],tmp);
+      draw_lines(tmp,s,c);
+      free_matrix(tmp);
     }//end of sphere
 
     else if ( strncmp(line, "torus", strlen(line)) == 0 ) {
